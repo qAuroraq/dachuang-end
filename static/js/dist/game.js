@@ -18,6 +18,7 @@ class AcGameMenu {
     </div>
 </div>
 `);
+        this.$menu.hide();
         this.root.$ac_game.append(this.$menu);
         this.$single_mode = this.$menu.find('.ac-game-menu-field-item-single-mode');
         this.$multi_mode = this.$menu.find('.ac-game-menu-field-item-multi-mode');
@@ -396,18 +397,7 @@ class AcGamePlayground{
     constructor(root){
         this.root = root;
         this.$playground = $(`<div class="ac-game-playground"></div>`);
-        // this.hide();
-        this.root.$ac_game.append(this.$playground);
-        //必须写在下面的东西前面，否则100%没有效果,height=0
-        this.height = this.$playground.height();
-        this.width = this.$playground.width();
-        this.game_map = new GameMap(this);
-        this.players = [];
-        this.players.push(new Player(this, this.width / 2, this.height / 2, this.height * 0.05, "white", this.height * 0.15, true));
-        
-        for(let i = 0; i < 5; i ++ ){
-            this.players.push(new Player(this, this.width / 2, this.height / 2, this.height * 0.05, this.get_random_color(), this.height * 0.15, false));
-        }
+        this.hide();
         this.start();
     }
     start(){
@@ -420,6 +410,18 @@ class AcGamePlayground{
     show()  //打开playground界面
     {
         this.$playground.show();
+        this.root.$ac_game.append(this.$playground);
+        //必须写在下面的东西前面，否则100%没有效果,height=0
+        this.height = this.$playground.height();
+        this.width = this.$playground.width();
+        this.game_map = new GameMap(this);
+        this.players = [];
+        this.players.push(new Player(this, this.width / 2, this.height / 2, this.height * 0.05, "white", this.height * 0.15, true));
+
+        for(let i = 0; i < 5; i ++ ){
+            this.players.push(new Player(this, this.width / 2, this.height / 2, this.height * 0.05, this.get_random_color(), this.height * 0.15, false));
+        }
+
     }
 
     hide()  //关闭playground界面
@@ -427,14 +429,60 @@ class AcGamePlayground{
         this.$playground.hide();
     }
 }
+class Settings{
+    constructor(root){
+        this.root = root;
+        this.platform = "WEB";
+        if(this.root.AcWingOS)  this.platform = "ACAPP";
+        this.start();
+    }
+
+    start(){
+        this.getinfo();
+    }
+
+    register(){     //打开注册页面
+    }
+
+    login(){        //打开登录页面
+    }
+
+    hide(){
+    }
+
+    show(){
+    }
+
+    getinfo(){
+        let outer = this;
+        $.ajax({
+            url:"http://43.138.30.253:8000/settings/getinfo/",
+            type:"GET",
+            data: {
+               'platform':outer.platform,
+            },
+            success: function(resp){
+                console.log(resp);
+                if(resp.result === "success"){
+                    outer.hide();
+                    outer.root.menu.show();
+                }else{
+                    console.log("!!!");
+                }
+            }
+        })
+    }
+}
 export class AcGame {
-    constructor(id){
+    constructor(id, AcWingOS){
         this.id = id;
         this.$ac_game = $('#' + id);
-        // this.menu = new AcGameMenu(this);
+        this.AcWingOS = AcWingOS;
+        this.Settings = new Settings(this)
+        this.menu = new AcGameMenu(this);
         this.playground = new AcGamePlayground(this);
         this.start();
     }
-    start()
-    {}
+    start(){
+    }
 }

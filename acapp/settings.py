@@ -26,13 +26,14 @@ SECRET_KEY = 'django-insecure-(2slf3@z+$!qo0zkwk1z1*zu=5^yj8^ka5eo$(5e#b^ic5k%al
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['43.138.30.253']
+ALLOWED_HOSTS = ['43.138.30.253', "app3574.acapp.acwing.com.cn"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
     'game.apps.GameConfig',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,6 +43,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -51,6 +53,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 ROOT_URLCONF = 'acapp.urls'
 
 TEMPLATES = [
