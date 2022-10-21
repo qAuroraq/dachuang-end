@@ -1,17 +1,12 @@
 from django.http import JsonResponse
+from game.models.player.player import Player
 
 def getinfo(request):
-    index = int(request.GET.get('user_id'))
-    User = [{'id': 1, 'balance': 1000, 'position': 'Beijing', 'nickname': 'NN'},
-            {'id': 2, 'balance': 1500, 'position': 'Shanghai', 'nickname': 'TT'},
-            {'id': 3, 'balance': 2000, 'position': 'Kunming', 'nickname': 'ZZ'},
-            {'id': 4, 'balance': 2500, 'position': 'Chongqing', 'nickname': 'PP'},
-        ]
-    player = User[index]
-    print(player)
+    user_id = int(request.GET.get('user_id', 1))
+    player = Player.objects.get(user_id=user_id)
     return JsonResponse({
-            'id': player['id'],
-            'balance': player['balance'],
-            'position': player['position'],
-            'nickname': player['nickname'],
+        'user_id': player.user.id,
+        'username': player.user.username,
+        'balance': player.balance,
+        'photo': player.photo,
         })
