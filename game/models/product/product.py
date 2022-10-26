@@ -7,5 +7,5 @@ class Product(models.Model):
     createtime = models.DateTimeField(default=now)
 
     def __str__(self):
-        dt=self.createtime.strftime("%Y-%m-%d %H:%M:%S")  
+        dt = self.createtime.strftime("%Y-%m-%d %H:%M:%S")
         return str(self.user_id) + '-' + dt
