@@ -5,7 +5,7 @@ class Product(models.Model):
     user_id = models.IntegerField(default=0)
     product_name = models.CharField(default="", max_length=256)
     createtime = models.DateTimeField(default=now)
-
+    hashcode=models.CharField(max_length=256,null=True)
     def __str__(self):
         dt = self.createtime.strftime("%Y-%m-%d %H:%M:%S")
         return str(self.user_id) + '-' + dt

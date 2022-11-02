@@ -13,9 +13,10 @@ def buygoods(request):
     if remain >= 0:
         player.balance = str(remain)
         player.save()
-        Product.objects.create(user_id=user_id, product_name=product_name)
+        product = Product.objects.create(user_id=user_id, product_name=product_name)
         return JsonResponse({
             'result': "success",
+            'product_id': product.pk,
         })
     else:
         return JsonResponse({

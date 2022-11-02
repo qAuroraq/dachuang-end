@@ -18,6 +18,7 @@ class ProductView(APIView):
                 'id': product.id,
                 'createtime': time,
                 'name': product.product_name,
+                'hashcode': product.hashcode,
                 })
         return Response(result)
 
